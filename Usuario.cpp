@@ -98,6 +98,8 @@ Registro** Usuario::getRegistros(){
     return this->registros;
 }
 
-int Usuario::getQuantidade(){
-    return this->quantidade;
+int Usuario::getQuantidade(){ //pode dar ruim mais tarde
+    int temp = this->quantidade;
+    this->quantidade++;
+    return temp;
 } 
