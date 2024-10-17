@@ -1,4 +1,4 @@
-#include <GerenciadorDeUsuario.h>
+#include "GerenciadorDeUsuario.h"
 
 GerenciadorDeUsuario::GerenciadorDeUsuario(int maximo) 
     : maximo(maximo), quantidade(0), usuarios(new Usuario*[maximo]) {}

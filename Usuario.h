@@ -13,6 +13,7 @@ private:
   int maximo;
   int quantidade = 0;
   Registro** registros;
+  bool autorizaRegistro(Data *d, bool entrar);
 
 public:
     Usuario(int id, string nome, int maximo);

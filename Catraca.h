@@ -9,7 +9,8 @@ class Catraca {
         GerenciadorDeUsuario* g;
     public:
         Catraca(GerenciadorDeUsuario* g);
-        virtual ~Catraca(){}
+        virtual ~Catraca();
+
         bool entrar(int id, Data* d);
         bool sair(int id, Data* d);
 };
