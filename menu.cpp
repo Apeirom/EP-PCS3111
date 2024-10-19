@@ -4,12 +4,12 @@
 
 using namespace std;
 
-
+// falta implementar
 void opcao1(){
 
 }
 void opcao2(){
-    
+
 }
 void opcao3(){
     
@@ -35,7 +35,7 @@ Catraca* catraca1 = new Catraca(gerenciador);
 
 do {
     cout << "Acesso ao predio\n" << "1) Entrada\n" << "2) Saida\n" << "3) Registro Manual\n" << "4) Cadastro de Usuario" << "5) Relatorio\n"
-         << "0) Sair\n" << "Escola uma opcao: ";
+         << "0) Sair\n" << "Escolha uma opcao: ";
     cin >> opcao;
     cout << "\n";
     switch (opcao) {
