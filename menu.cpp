@@ -1,16 +1,67 @@
 #include "Catraca.h"
 #include "GerenciadorDeUsuario.h"
+#include "Data.h"
 #include <iostream>
 
 using namespace std;
 
-// falta implementar
-void opcao1(){
+void PassagemCatraca(Catraca* catraca0, Catraca* catraca1, bool entrada){
+    int numCatraca;
+    int id;
+    int hora, minuto, segundo, dia, mes, ano;
+    bool sucesso;
+    string tipoPassagem;
+    cout << "Catraca: ";
+    cin >> numCatraca;
+    cout << "\nId: ";
+    cin >> id;
+    cout << "\nHora: ";
+    cin >> hora;
+    cout << "\nMinuto: ";        
+    cin >> minuto;
+    cout << "\nSegundo: ";
+    cin >> segundo;
+    cout << "\nDia: ";
+    cin >> dia;
+    cout << "\nMes: ";
+    cin >> mes;
+    cout << "\nAno: ";
+    cin >> ano;
+    Data* data = new Data(hora, minuto, segundo, dia, mes, ano);
+
+    if(numCatraca = 0){
+        if(entrada == true){
+            sucesso = catraca0->entrar(id, data);
+        }
+        else {
+            sucesso = catraca0->sair(id, data);
+        }
+    }
+    else {
+        if(entrada == true){
+            sucesso = catraca1->entrar(id, data);
+        }
+        else {
+            sucesso = catraca1->sair(id, data);
+        }
+    }
+
+    if (entrada == true){
+        tipoPassagem = "Entrada";
+    }
+    else{
+        tipoPassagem = "Saida";
+    }
+
+    if (sucesso == true){
+        cout << "[" << tipoPassagem << "] " << "Catraca " << numCatraca << " abriu: id " << id << "\n";
+    }
+    else{
+        cout << "[" << tipoPassagem << "] " << "Catraca " << numCatraca << " travada\n";
+    }
 
 }
-void opcao2(){
 
-}
 void opcao3(){
     
 }
@@ -41,10 +92,10 @@ do {
 
     switch (opcao) {
         case 1:
-            opcao1();
+            PassagemCatraca(catraca0, catraca1, true);
             break;
         case 2:
-            opcao2();
+            PassagemCatraca(catraca0, catraca1, false);
             break;
         case 3:
             opcao3();
