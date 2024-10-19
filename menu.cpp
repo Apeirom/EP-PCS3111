@@ -38,6 +38,7 @@ do {
          << "0) Sair\n" << "Escolha uma opcao: ";
     cin >> opcao;
     cout << "\n";
+
     switch (opcao) {
         case 1:
             opcao1();
@@ -57,6 +58,14 @@ do {
         case 0:
             fim = true;
             break;
+        default:
+            cout << "Opcao invalida\n";
+            break;
     }
 } while (fim != true);
+// nao tenho certeza se precisa desses delete
+delete catraca0;
+delete catraca1;
+delete gerenciador;
+
 }
