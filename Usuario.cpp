@@ -31,7 +31,7 @@ bool Usuario::autorizaRegistro(Data *d, bool entrar){
         return false;
     }
     
-    if (this->registros[this->quantidade-1]->isEntrada() ^ entrar)
+    if (!(this->registros[this->quantidade-1]->isEntrada() ^ entrar))
     {
         return false;
     }
