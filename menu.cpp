@@ -30,7 +30,7 @@ void PassagemCatraca(Catraca* catraca0, Catraca* catraca1, bool entrada){
     cin >> ano;
     Data* data = new Data(hora, minuto, segundo, dia, mes, ano);
 
-    if(numCatraca = 0){
+    if(numCatraca == 0){
         if(entrada == true){
             sucesso = catraca0->entrar(id, data);
         }
