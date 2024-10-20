@@ -6,16 +6,9 @@
 
 using namespace std;
 
-void PassagemCatraca(Catraca* catraca0, Catraca* catraca1, bool entrada){
-    int numCatraca;
-    int id;
+Data* ObterData(){
     int hora, minuto, segundo, dia, mes, ano;
-    bool sucesso;
-    string tipoPassagem;
-    cout << "Catraca: ";
-    cin >> numCatraca;
-    cout << "Id: ";
-    cin >> id;
+
     cout << "Hora: ";
     cin >> hora;
     cout << "Minuto: ";        
@@ -29,6 +22,20 @@ void PassagemCatraca(Catraca* catraca0, Catraca* catraca1, bool entrada){
     cout << "Ano: ";
     cin >> ano;
     Data* data = new Data(hora, minuto, segundo, dia, mes, ano);
+    return data;
+}
+
+void PassagemCatraca(Catraca* catraca0, Catraca* catraca1, bool entrada){
+    int numCatraca;
+    int id;
+    bool sucesso;
+    string tipoPassagem;
+    
+    cout << "Catraca: ";
+    cin >> numCatraca;
+    cout << "Id: ";
+    cin >> id;
+    Data* data = ObterData();
 
     if(numCatraca == 0){
         if(entrada == true){
@@ -66,38 +73,27 @@ void PassagemCatraca(Catraca* catraca0, Catraca* catraca1, bool entrada){
 void RegistroManual(GerenciadorDeUsuario* gerenciador){
     char tipoPassagem;
     int id;
-    int hora, minuto, segundo, dia, mes, ano;
+
     bool sucesso;
     string tipoPassagemString;
     cout << "Entrada (e) ou saida (s)? ";
     cin >> tipoPassagem;
     cout << "Id: ";
     cin >> id;
-    cout << "Hora: ";
-    cin >> hora;
-    cout << "Minuto: ";        
-    cin >> minuto;
-    cout << "Segundo: ";
-    cin >> segundo;
-    cout << "Dia: ";
-    cin >> dia;
-    cout << "Mes: ";
-    cin >> mes;
-    cout << "Ano: ";
-    cin >> ano;
-    Data* data = new Data(hora, minuto, segundo, dia, mes, ano);
+    
+    Data* data = ObterData();
+
     if (tipoPassagem == 'e'){
         sucesso = gerenciador->getUsuario(id)->entrar(data);
         tipoPassagemString = "entrada";
-    }
-    else { //tipoPassagem == 's'
+    } else { //tipoPassagem == 's'
         sucesso = gerenciador->getUsuario(id)->sair(data);
         tipoPassagemString = "saida";
     }
+
     if (sucesso = true){
         cout << tipoPassagemString << " manual registra: id " << id << "\n";
-    }
-    else{ //falha
+    } else { //falha
         cout << "Erro ao registrar " << tipoPassagemString << " manual \n";
     }
 }
@@ -105,14 +101,14 @@ void RegistroManual(GerenciadorDeUsuario* gerenciador){
 void CadastroDeUsuario(GerenciadorDeUsuario* gerenciador){
     int id;
     string nome;
-    bool sucesso;
+
     cout << "Id: ";
     cin >> id;
     cout << "Nome: ";
     cin >> nome;
     Usuario* usuario = new Usuario(id, nome, 10);
-    sucesso = gerenciador->adicionar(usuario);
-    if (sucesso = true){
+
+    if (gerenciador->adicionar(usuario)){
         cout << "Usuario cadastrado com sucesso\n";
     }
     else{ //falha
