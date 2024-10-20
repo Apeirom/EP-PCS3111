@@ -106,9 +106,9 @@ void CadastroDeUsuario(GerenciadorDeUsuario* gerenciador){
     int id;
     string nome;
     bool sucesso;
-    cout << "id: ";
+    cout << "Id: ";
     cin >> id;
-    cout << "nome: ";
+    cout << "Nome: ";
     cin >> nome;
     Usuario* usuario = new Usuario(id, nome, 10);
     sucesso = gerenciador->adicionar(usuario);
@@ -148,6 +148,7 @@ do {
     cout << "Acesso ao predio\n" << "1) Entrada\n" << "2) Saida\n" << "3) Registro Manual\n" << "4) Cadastro de Usuario\n" << "5) Relatorio\n"
          << "0) Sair\n" << "Escolha uma opcao: ";
     cin >> opcao;
+    cout << "\n";
     switch (opcao) {
         case 1:
             PassagemCatraca(catraca0, catraca1, true);
