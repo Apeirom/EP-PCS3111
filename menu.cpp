@@ -28,9 +28,9 @@ Data* ObterData(){
 void PassagemCatraca(Catraca* catraca0, Catraca* catraca1, bool entrada){
     int numCatraca;
     int id;
-    int hora, minuto, segundo, dia, mes, ano;
     bool sucesso;
     string tipoPassagem;
+    
     cout << "Catraca: ";
     cin >> numCatraca;
     cout << "Id: ";
@@ -101,7 +101,7 @@ void RegistroManual(GerenciadorDeUsuario* gerenciador){
 void CadastroDeUsuario(GerenciadorDeUsuario* gerenciador){
     int id;
     string nome;
-    
+
     cout << "Id: ";
     cin >> id;
     cout << "Nome: ";
