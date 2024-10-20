@@ -91,7 +91,7 @@ int Usuario::getHorasTrabalhadas(int mes, int ano){
         }
         
     }
-    return somaHorasTrabalhadas;
+    return somaHorasTrabalhadas/3600;
 }
 
 Registro** Usuario::getRegistros(){
