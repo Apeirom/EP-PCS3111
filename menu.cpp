@@ -169,6 +169,7 @@ do {
             fim = true;
             break;
     }
+    cout << "\n";
 } while (fim != true);
 // nao tenho certeza se precisa desses delete
 delete catraca0;
