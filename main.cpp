@@ -1,8 +1,8 @@
 void testeData();
 void testeRegistro();
 void testeUsuário();
-
+void menu();
 int main() {
-    testeData(); // Substitua pelo teste que deseja efetuar
+    menu(); // Substitua pelo teste que deseja efetuar
     return 0;
 }
