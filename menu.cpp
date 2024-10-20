@@ -128,7 +128,7 @@ void Relatorio(GerenciadorDeUsuario* gerenciador){
     cin >> ano;
     cout << "Relatorio de horas trabalhadas\n";
     for (int i = 0; i < gerenciador->getQuantidade(); i++){
-        cout << gerenciador->getUsuario(i)->getNome() << ": " << gerenciador->getUsuario(i)->getHorasTrabalhadas(mes, ano) << "\n";
+        cout << gerenciador->getUsuarios()[i]->getNome() << ": " << gerenciador->getUsuarios()[i]->getHorasTrabalhadas(mes, ano) << "\n";
     }
 }
 
