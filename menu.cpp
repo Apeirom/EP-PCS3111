@@ -14,21 +14,20 @@ void PassagemCatraca(Catraca* catraca0, Catraca* catraca1, bool entrada){
     string tipoPassagem;
     cout << "Catraca: ";
     cin >> numCatraca;
-    cout << "\nId: ";
+    cout << "Id: ";
     cin >> id;
-    cout << "\nHora: ";
+    cout << "Hora: ";
     cin >> hora;
-    cout << "\nMinuto: ";        
+    cout << "Minuto: ";        
     cin >> minuto;
-    cout << "\nSegundo: ";
+    cout << "Segundo: ";
     cin >> segundo;
-    cout << "\nDia: ";
+    cout << "Dia: ";
     cin >> dia;
-    cout << "\nMes: ";
+    cout << "Mes: ";
     cin >> mes;
-    cout << "\nAno: ";
+    cout << "Ano: ";
     cin >> ano;
-    cout << "\n";
     Data* data = new Data(hora, minuto, segundo, dia, mes, ano);
 
     if(numCatraca = 0){
@@ -72,21 +71,20 @@ void RegistroManual(GerenciadorDeUsuario* gerenciador){
     string tipoPassagemString;
     cout << "Entrada (e) ou saida (s)? ";
     cin >> tipoPassagem;
-    cout << "\nId: ";
+    cout << "Id: ";
     cin >> id;
-    cout << "\nHora: ";
+    cout << "Hora: ";
     cin >> hora;
-    cout << "\nMinuto: ";        
+    cout << "Minuto: ";        
     cin >> minuto;
-    cout << "\nSegundo: ";
+    cout << "Segundo: ";
     cin >> segundo;
-    cout << "\nDia: ";
+    cout << "Dia: ";
     cin >> dia;
-    cout << "\nMes: ";
+    cout << "Mes: ";
     cin >> mes;
-    cout << "\nAno: ";
+    cout << "Ano: ";
     cin >> ano;
-    cout << "\n";
     Data* data = new Data(hora, minuto, segundo, dia, mes, ano);
     if (tipoPassagem == 'e'){
         sucesso = gerenciador->getUsuario(id)->entrar(data);
@@ -110,7 +108,7 @@ void CadastroDeUsuario(GerenciadorDeUsuario* gerenciador){
     bool sucesso;
     cout << "id: ";
     cin >> id;
-    cout << "\nnome: ";
+    cout << "nome: ";
     cin >> nome;
     Usuario* usuario = new Usuario(id, nome, 10);
     sucesso = gerenciador->adicionar(usuario);
@@ -126,9 +124,9 @@ void Relatorio(GerenciadorDeUsuario* gerenciador){
     int mes, ano;
     cout << "Mes: ";
     cin >> mes;
-    cout << "\nAno: ";
+    cout << "Ano: ";
     cin >> ano;
-    cout << "\nRelatorio de horas trabalhadas\n";
+    cout << "Relatorio de horas trabalhadas\n";
     for (int i = 0; i < gerenciador->getQuantidade(); i++){
         cout << gerenciador->getUsuario(i)->getNome() << ": " << gerenciador->getUsuario(i)->getHorasTrabalhadas(mes, ano) << "\n";
     }
@@ -147,11 +145,9 @@ Catraca* catraca0 = new Catraca(gerenciador);
 Catraca* catraca1 = new Catraca(gerenciador);
 
 do {
-    cout << "Acesso ao predio\n" << "1) Entrada\n" << "2) Saida\n" << "3) Registro Manual\n" << "4) Cadastro de Usuario" << "5) Relatorio\n"
+    cout << "Acesso ao predio\n" << "1) Entrada\n" << "2) Saida\n" << "3) Registro Manual\n" << "4) Cadastro de Usuario\n" << "5) Relatorio\n"
          << "0) Sair\n" << "Escolha uma opcao: ";
     cin >> opcao;
-    cout << "\n";
-
     switch (opcao) {
         case 1:
             PassagemCatraca(catraca0, catraca1, true);
