@@ -12,6 +12,7 @@ private:
   int maximo;
   int quantidade = 0;
   Registro** registros;
+  bool isRegistroEntrada(int i);
   bool autorizaRegistro(Data *d, bool entrar);
 
 public:

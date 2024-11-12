@@ -1,6 +1,20 @@
 #include "Registro.h"
+#include <stdexcept>
+Registro::Registro(Data* d, bool manual){
+    if (d == nullptr){
+        throw invalid_argument("Data nula");
+    }
+    this->data = d;
+    this->manual = manual;
+}
 
-Registro::Registro(Data* d, bool entrada, bool manual) : data(d), entrada(entrada), manual(manual) {}
+Registro::Registro(Data* d){
+    if (d == nullptr){
+        throw invalid_argument("Data nula");
+    }
+    this->data = d;
+    this->manual = false;
+}
 
 Registro::~Registro(){
     delete this->data;
@@ -9,9 +23,7 @@ Registro::~Registro(){
 Data* Registro::getData(){
     return this->data;
 }
-bool Registro::isEntrada(){
-    return this->entrada;
-}
+
 bool Registro::isManual(){
     return this->manual;
 }
