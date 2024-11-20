@@ -9,15 +9,14 @@ using namespace std;
 class Registro{
 private:
   Data* data;
-  bool entrada;
   bool manual;
 
 public:
-    Registro(Data* d, bool entrada, bool manual);
+    Registro(Data* d);
+    Registro(Data* d, bool manual);
+    virtual ~Registro() = 0;
 
-    virtual ~Registro();
     Data* getData();
-    bool isEntrada();
     bool isManual();
 };
 #endif

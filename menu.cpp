@@ -91,7 +91,7 @@ void RegistroManual(GerenciadorDeUsuario* gerenciador){
         tipoPassagemString = "saida";
     }
 
-    if (sucesso = true){
+    if (sucesso == true){
         cout << tipoPassagemString << " manual registra: id " << id << "\n";
     } else { //falha
         cout << "Erro ao registrar " << tipoPassagemString << " manual \n";
