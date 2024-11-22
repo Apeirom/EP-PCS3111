@@ -1,7 +1,7 @@
 #ifndef SAIDA_H
 #define SAIDA_H
 
-#include "registro.h"
+#include "Registro.h"
 
 class Saida : public Registro {
 public:

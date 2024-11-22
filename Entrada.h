@@ -1,7 +1,7 @@
 #ifndef Entrada_H
 #define Entrada_H
 
-#include "registro.h"
+#include "Registro.h"
 
 class Entrada : public Registro {
 public:
