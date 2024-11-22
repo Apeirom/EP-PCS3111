@@ -1,36 +1,35 @@
 #include "GerenciadorDeUsuario.h"
 
-GerenciadorDeUsuario::GerenciadorDeUsuario(int maximo) 
-    : maximo(maximo), quantidade(0), usuarios(new Usuario*[maximo]) {}
+GerenciadorDeUsuario::GerenciadorDeUsuario() : usuarios(new vector<Usuario*>()) {}
+
+GerenciadorDeUsuario::GerenciadorDeUsuario(vector<Usuario*>* usuarios) : usuarios(usuarios) {}
 
 GerenciadorDeUsuario::~GerenciadorDeUsuario() {
-    for (int i = 0; i < quantidade; i++) {
-        delete usuarios[i];
+    for (int i = 0; i < this->usuarios->size(); i++)
+    {
+        delete this->usuarios->at(i);
     }
-    delete[] usuarios;
+    delete usuarios;
 }
 
-bool GerenciadorDeUsuario::adicionar(Usuario* u) {
-    if (quantidade >= maximo || getUsuario(u->getId()) != nullptr) {
-        return false;
+void GerenciadorDeUsuario::adicionar(Usuario* u) {
+    for (int i = 0; i < this->usuarios->size(); i++) {
+        if (this->usuarios->at(i)->getId() == u->getId()) {
+            throw invalid_argument("Usuario com este ID ja foi adicionado.");
+        }
     }
-    usuarios[quantidade++] = u;
-    return true;
+    usuarios->push_back(u);
 }
 
 Usuario* GerenciadorDeUsuario::getUsuario(int id) {
-    for (int i = 0; i < quantidade; i++) {
-        if (usuarios[i]->getId() == id) {
-            return usuarios[i];
+    for (int i = 0; i < this->usuarios->size(); i++) {
+        if (this->usuarios->at(i)->getId() == id) {
+            return this->usuarios->at(i);
         }
     }
     return nullptr;
 }
 
-Usuario** GerenciadorDeUsuario::getUsuarios() {
+vector<Usuario*>* GerenciadorDeUsuario::getUsuarios() {
     return usuarios;
-}
-
-int GerenciadorDeUsuario::getQuantidade() {
-    return quantidade;
 }
