@@ -3,9 +3,7 @@
 
 using namespace std;
 
-Catraca::Catraca(GerenciadorDeUsuario* g){
-    this->g = g;
-}
+Catraca::Catraca(GerenciadorDeUsuario* g) : g(g) {}
 
 Catraca::~Catraca(){}
 

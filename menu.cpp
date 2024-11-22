@@ -1,17 +1,20 @@
 #include "Catraca.h"
 #include "GerenciadorDeUsuario.h"
+#include "PersistenciaDeUsuario.h"
 #include "Data.h"
-#include "Usuario.h"
+#include "Aluno.h"
+#include "Funcionario.h"
+#include "Visitante.h"
 #include <iostream>
 
 using namespace std;
 
-Data* ObterData(){
+Data* ObterData() {
     int hora, minuto, segundo, dia, mes, ano;
 
     cout << "Hora: ";
     cin >> hora;
-    cout << "Minuto: ";        
+    cout << "Minuto: ";
     cin >> minuto;
     cout << "Segundo: ";
     cin >> segundo;
@@ -21,155 +24,203 @@ Data* ObterData(){
     cin >> mes;
     cout << "Ano: ";
     cin >> ano;
-    Data* data = new Data(hora, minuto, segundo, dia, mes, ano);
-    return data;
+    return new Data(hora, minuto, segundo, dia, mes, ano);
 }
 
-void PassagemCatraca(Catraca* catraca0, Catraca* catraca1, bool entrada){
-    int numCatraca;
-    int id;
-    bool sucesso;
-    string tipoPassagem;
-    
+void PassagemCatraca(Catraca* catraca0, Catraca* catraca1, bool entrada) {
+    int numCatraca, id;
     cout << "Catraca: ";
     cin >> numCatraca;
     cout << "Id: ";
     cin >> id;
     Data* data = ObterData();
 
-    if(numCatraca == 0){
-        if(entrada == true){
-            sucesso = catraca0->entrar(id, data);
-        }
-        else { //saida
-            sucesso = catraca0->sair(id, data);
-        }
-    }
-    else { //numCatraca = 1
-        if(entrada == true){
-            sucesso = catraca1->entrar(id, data);
-        }
-        else { //saida
-            sucesso = catraca1->sair(id, data);
-        }
-    }
+    bool sucesso = (numCatraca == 0) ? 
+        (entrada ? catraca0->entrar(id, data) : catraca0->sair(id, data)) :
+        (entrada ? catraca1->entrar(id, data) : catraca1->sair(id, data));
 
-    if (entrada == true){
-        tipoPassagem = "Entrada";
+    if(sucesso){}
+    cout << (entrada ? "[Entrada] " : "[Saida] ") << "Catraca " << numCatraca;
+    if(sucesso){
+        cout << " abriu: id " << id << endl;
+    } else {
+        cout << " travada" << endl;
     }
-    else{
-        tipoPassagem = "Saida";
-    }
-
-    if (sucesso == true){
-        cout << "[" << tipoPassagem << "] " << "Catraca " << numCatraca << " abriu: id " << id << "\n";
-    }
-    else{ //falha
-        cout << "[" << tipoPassagem << "] " << "Catraca " << numCatraca << " travada\n";
-    }
-
+    delete data;
 }
 
-void RegistroManual(GerenciadorDeUsuario* gerenciador){
+void RegistroManual(GerenciadorDeUsuario* gerenciador) {
     char tipoPassagem;
     int id;
-
-    bool sucesso;
-    string tipoPassagemString;
-    cout << "Entrada (e) ou saida (s)? ";
+    cout << "Entrada (e) ou Saida (s)? ";
     cin >> tipoPassagem;
     cout << "Id: ";
     cin >> id;
-    
     Data* data = ObterData();
 
-    if (tipoPassagem == 'e'){
-        sucesso = gerenciador->getUsuario(id)->entrar(data);
-        tipoPassagemString = "entrada";
-    } else { //tipoPassagem == 's'
-        sucesso = gerenciador->getUsuario(id)->sair(data);
-        tipoPassagemString = "saida";
+    Usuario* usuario = gerenciador->getUsuario(id);
+    if (!usuario) {
+        cout << "Usuario nao encontrado.\n";
+        delete data;
+        return;
     }
 
-    if (sucesso == true){
-        cout << tipoPassagemString << " manual registra: id " << id << "\n";
-    } else { //falha
-        cout << "Erro ao registrar " << tipoPassagemString << " manual \n";
-    }
+    bool sucesso = (tipoPassagem == 'e') ? usuario->entrar(data) : usuario->sair(data);
+    cout << (sucesso ? (tipoPassagem == 'e' ? "Entrada" : "Saida") + string(" manual registrada: id ") + to_string(id)
+                     : "Erro ao registrar manualmente") << "\n";
+    delete data;
 }
 
-void CadastroDeUsuario(GerenciadorDeUsuario* gerenciador){
+void CadastroDeUsuario(GerenciadorDeUsuario* gerenciador) {
+    char tipoUsuario;
     int id;
     string nome;
 
+    cout << "Tipo (v, a ou f): ";
+    cin >> tipoUsuario;
     cout << "Id: ";
     cin >> id;
     cout << "Nome: ";
     cin >> nome;
-    Usuario* usuario = new Usuario(id, nome, 10);
 
-    if (gerenciador->adicionar(usuario)){
+    Usuario* usuario = nullptr;
+    if (tipoUsuario == 'a') {
+        usuario = new Aluno(id, nome);
+    } else if (tipoUsuario == 'f') {
+        usuario = new Funcionario(id, nome);
+    } else if (tipoUsuario == 'v') {
+        cout << "Data de Inicio:\n";
+        Data* inicio = ObterData();
+        cout << "Data de Fim:\n";
+        Data* fim = ObterData();
+        usuario = new Visitante(id, nome, inicio, fim);
+    } else {
+        cout << "Tipo invalido.\n";
+        return;
+    }
+
+    try
+    {
+        gerenciador->adicionar(usuario);
         cout << "Usuario cadastrado com sucesso\n";
     }
-    else{ //falha
+    catch(invalid_argument *e)
+    {
         cout << "Erro ao cadastrar o usuario\n";
+        delete usuario;
     }
 }
 
-void Relatorio(GerenciadorDeUsuario* gerenciador){
+void Relatorio(GerenciadorDeUsuario* gerenciador) {
     int mes, ano;
     cout << "Mes: ";
     cin >> mes;
     cout << "Ano: ";
     cin >> ano;
     cout << "Relatorio de horas trabalhadas\n";
-    for (int i = 0; i < gerenciador->getQuantidade(); i++){
-        cout << gerenciador->getUsuarios()[i]->getNome() << ": " << gerenciador->getUsuarios()[i]->getHorasTrabalhadas(mes, ano) << "\n";
+    for (int i = 0; i < gerenciador->getUsuarios()->size(); i++) {
+        Usuario* usuario = gerenciador->getUsuarios()->at(i);
+        Funcionario* funcionario = dynamic_cast<Funcionario*>(usuario);
+        if (funcionario) {
+            cout << funcionario->getNome() << ": " << funcionario->getHorasTrabalhadas(mes, ano) << "\n";
+        }
     }
 }
 
+void Configuracao(GerenciadorDeUsuario* gerenciador) {
+    int hora, minuto;
 
+    cout << "Horario de fim da janela dos Alunos\n";
+    cout << "Hora: ";
+    cin >> hora;
+    cout << "Minuto: ";
+    cin >> minuto;
+
+    Aluno::setHorarioFim(hora, minuto);
+}
 
 void menu() {
+    bool fim = false;
+    GerenciadorDeUsuario* gerenciador = nullptr;
+    PersistenciaDeUsuario persistencia;
+    Catraca* catraca0 = nullptr;
+    Catraca* catraca1 = nullptr;
 
-bool fim = false;
-int opcao;
-
-GerenciadorDeUsuario* gerenciador = new GerenciadorDeUsuario(10);
-
-Catraca* catraca0 = new Catraca(gerenciador);
-Catraca* catraca1 = new Catraca(gerenciador);
-
-do {
-    cout << "Acesso ao predio\n" << "1) Entrada\n" << "2) Saida\n" << "3) Registro Manual\n" << "4) Cadastro de Usuario\n" << "5) Relatorio\n"
-         << "0) Sair\n" << "Escolha uma opcao: ";
+    cout << "Deseja carregar usuarios (s/n): ";
+    char opcao;
     cin >> opcao;
-    cout << "\n";
-    switch (opcao) {
-        case 1:
-            PassagemCatraca(catraca0, catraca1, true);
-            break;
-        case 2:
-            PassagemCatraca(catraca0, catraca1, false);
-            break;
-        case 3:
-            RegistroManual(gerenciador);
-            break;
-        case 4:
-            CadastroDeUsuario(gerenciador);
-            break;
-        case 5:
-            Relatorio(gerenciador);
-            break;
-        case 0:
-            fim = true;
-            break;
+    if (opcao == 's') {
+        string arquivo;
+        cout << "Arquivo: ";
+        cin >> arquivo;
+        try {
+            gerenciador = new GerenciadorDeUsuario(persistencia.carregar(arquivo));
+        } catch (...) {
+            cout << "Erro ao carregar usuarios.\n";
+            return;
+        }
+    } else {
+        gerenciador = new GerenciadorDeUsuario();
     }
-    cout << "\n";
-} while (fim != true);
-// nao tenho certeza se precisa desses delete
-delete catraca0;
-delete catraca1;
-delete gerenciador;
 
+    catraca0 = new Catraca(gerenciador);
+    catraca1 = new Catraca(gerenciador);
+
+    do {
+        cout << "Acesso ao predio\n"
+             << "1) Entrada\n"
+             << "2) Saida\n"
+             << "3) Registro manual\n"
+             << "4) Cadastro de usuario\n"
+             << "5) Relatorio\n"
+             << "6) Configuracao\n"
+             << "0) Sair\n"
+             << "Escolha uma opcao: ";
+        int escolha;
+        cin >> escolha;
+
+        switch (escolha) {
+            case 1:
+                PassagemCatraca(catraca0, catraca1, true);
+                break;
+            case 2:
+                PassagemCatraca(catraca0, catraca1, false);
+                break;
+            case 3:
+                RegistroManual(gerenciador);
+                break;
+            case 4:
+                CadastroDeUsuario(gerenciador);
+                break;
+            case 5:
+                Relatorio(gerenciador);
+                break;
+            case 6:
+                Configuracao(gerenciador);
+                break;
+            case 0:
+                fim = true;
+                break;
+            default:
+                cout << "Opcao invalida.\n";
+        }
+    } while (!fim);
+
+    cout << "Deseja salvar usuarios (s/n): ";
+    cin >> opcao;
+    if (opcao == 's') {
+        string arquivo;
+        cout << "Arquivo: ";
+        cin >> arquivo;
+        try {
+            persistencia.salvar(arquivo, gerenciador->getUsuarios());
+            cout << "Usuarios salvos com sucesso.\n";
+        } catch (...) {
+            cout << "Erro ao salvar usuarios.\n";
+        }
+    }
+
+    delete catraca0;
+    delete catraca1;
+    delete gerenciador;
 }
